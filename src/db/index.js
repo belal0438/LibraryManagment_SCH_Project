@@ -3,9 +3,9 @@ const DB_NAME = "schProject";
 
 connectDB = async () => {
   try {
-    const connectionInstance = await mongoose.connect(
-      `${process.env.MONGODB_URI}/${DB_NAME}`
-    );
+    const connectionInstance = await mongoose.connect(process.env.MONGODB_URI, {
+      dbName: DB_NAME,
+    });
 
     console.log(
       `\n MongoDB connected !! DB Host: ${connectionInstance.connection.host} `

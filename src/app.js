@@ -15,8 +15,12 @@ app.use(express.urlencoded({ extended: true, limit: "16Kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+//importing routes
 
+const userRoutes = require("./routes/userRoute");
+const bookRoutes = require("./routes/adminRoute");
+const transationRoutes = require("./routes/transationRoute");
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/books", bookRoutes);
+app.use("/api/v1/transactions", transationRoutes);
 module.exports = { app };

@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const Schema = mongoose.Schema;
 const userSchema = new Schema(
   {
-    usename: {
+    username: {
       type: String,
       require: true,
       unique: true,
@@ -23,6 +23,12 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required"],
     },
+    role: {
+      type: String,
+      enum: ["admin", "user"],
+      default: "user",
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -30,7 +36,7 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified(this.password)) return next();
+  if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
@@ -53,4 +59,5 @@ userSchema.methods.generateAccessToken = function () {
   );
 };
 
-export const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+module.exports = User;
